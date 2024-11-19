@@ -1,23 +1,24 @@
 
-############### GITIGNORE for 42 by nmonzon ###############
+####### GITIGNORE for 42 by nmonzon #######
 
-#Objects
+# Objects
 *.o
 *.d
 *.obj
 
-#Libraries
+# Libraries
 *.a
 *.lib
 
-#vscode
+# Folders
 .vs_code/
+tests/
 
-#MAC Finder
+# MAC Finder
 .DS_Store
 
-#Subject PDF
-*.pdf
+# Subject PDF
+*.subject.pdf
 
-#Executables
+# Executables
 *.out
