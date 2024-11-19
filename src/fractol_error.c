@@ -12,17 +12,17 @@
 
 #include "fractol.h"
 
-void	free_all(t_fractal *fractal)
-{
-	// free stuff with a loop
-}
+// void	free_all(t_fractal *fractal)
+// {
+// 	// free stuff with a loop
+// }
 
-void	error_handler(t_error error, t_fractal *fractal)
+void	error_handler(t_error error) // , t_fractal *fractal
 {
 	if (error == ERR_MEMORY)
-		ft_printf("Error: failed to allocate memory.\n");
+		ft_fprintf(2, "Error: failed to allocate memory.\n");
 	if (error == ERR_INVALID)
-		ft_printf("Error: invalid parameters for fractal.\n");
-	free_all(fractal);
+		ft_fprintf(2, "Error: invalid parameters for fractal.\n");
+	//free_all(fractal);
 	exit(EXIT_FAILURE);
 }

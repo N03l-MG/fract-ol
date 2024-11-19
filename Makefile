@@ -12,11 +12,11 @@
 ###############                     BUILD SETUP                  ###############
 ################################################################################
 
-NAME = libft.a
+NAME = fractol
 CC = cc
 FLAGS = -Wall -Wextra -Werror -MMD -MP $(addprefix -I, $(INCLUDES))
 LIBFT = ./libft/libft.a
-MLX = ./MLX42/libmlx42.a
+MLX = ./MLX42/build/libmlx42.a
 
 ifeq ($(shell uname), Darwin)
 	MLX_FLAGS = -ldl -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/" -pthread -lm
@@ -47,7 +47,7 @@ OBJ = $(addprefix $(OBJECTS)/, $(SRCS:.c=.o))
 ###############                 COMPILATION RULES                ###############
 ################################################################################
 
-all: submodule mlx_lib ft_lib $(NAME)
+all: mlx_lib ft_lib $(NAME)
 
 $(NAME): $(OBJ)
 	$(CC) $(FLAGS) $^ $(LIBFT) $(MLX) $(MLX_FLAGS) -o $@
@@ -58,9 +58,6 @@ $(OBJECTS)/%.o: %.c | $(OBJECTS)
 $(OBJECTS):
 	@mkdir -p $@
 
-submodule:
-	@git submodule update --init
-
 mlx_lib:
 	cd MLX42 && cmake -B build && make -C build -j4
 
@@ -70,7 +67,7 @@ ft_lib:
 clean:
 	rm -rf $(OBJECTS)
 	$(MAKE) -C libft clean
-	cd MLX42 && $(MAKE) clean
+	cd MLX42 && rm -rf build
 
 fclean: clean
 	rm -f $(NAME)

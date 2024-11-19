@@ -16,6 +16,6 @@ void	render_fractal(t_fractal *fractal)
 {
 	fractal->mlx_window = mlx_init(250, 250, "fract-ol", true);
 	if (!(fractal->mlx_window))
-		error_handler(ERR_MEMORY, fractal);
-	ft_printf("Log: window started.\n");
+		error_handler(ERR_MEMORY);
+	ft_fprintf(1, "Log: window started.\n");
 }

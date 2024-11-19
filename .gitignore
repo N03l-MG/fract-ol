@@ -13,6 +13,7 @@
 # Folders
 .vs_code/
 tests/
+_obj/
 
 # MAC Finder
 .DS_Store

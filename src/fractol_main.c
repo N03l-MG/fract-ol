@@ -12,6 +12,8 @@
 
 #include "fractol.h"
 
+static void	fractol_start(t_fractal_name name);
+
 int	main(int argc, char *argv[])
 {
 	if (argc == 2 && !ft_strncmp(argv[1], "mandelbrot", 10))
@@ -20,26 +22,26 @@ int	main(int argc, char *argv[])
 		fractol_start(JULIA);
 	else
 	{
-		ft_printf("Invalid input arguments!\n");
-		ft_printf("Usage: [Fratal] If Julia: [R Component] [I Component]\n");
+		ft_fprintf(2, "Invalid input arguments!\n");
+		ft_fprintf(1, "Usage: [Fratal] If Julia: [R Comp] [I Comp]\n");
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
 
-void	fractol_start(t_fractal_name name)
+static void	fractol_start(t_fractal_name name)
 {
 	t_fractal	fractal;
 
 	if (name == MANDELBROT)
 	{
-		ft_printf("Log: rendering Mandelbrot set.\n");
+		ft_fprintf(1, "Log: rendering Mandelbrot set.\n");
 		render_fractal(&fractal);
 		mlx_loop(fractal.mlx_window);
 	}
 	else if (name == JULIA)
 	{
-		ft_printf("Log: rendering Julia set.\n");
+		ft_fprintf(1, "Log: rendering Julia set.\n");
 		render_fractal(&fractal);
 		mlx_loop(fractal.mlx_window);
 	}
