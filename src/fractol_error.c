@@ -1,41 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.h                                          :+:      :+:    :+:   */
+/*   fractol_error.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmonzon <nmonzon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 12:39:00 by nmonzon           #+#    #+#             */
-/*   Updated: 2024/11/19 13:03:26 by nmonzon          ###   ########.fr       */
+/*   Created: 2024/11/19 14:50:17 by nmonzon           #+#    #+#             */
+/*   Updated: 2024/11/19 15:06:16 by nmonzon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FRACTOL_H
-# define FRACTOL_H
+#include "fractol.h"
 
-# include "libft/libft.h"
-# include "MLX42/MLX42.h"
-
-typedef enum e_fractal_name
+void	free_all(t_fractal *fractal)
 {
-	MANDELBROT,
-	JULIA
-	// etc
-}	t_fractal_name;
+	// free stuff with a loop
+}
 
-typedef enum e_error
+void	error_handler(t_error error, t_fractal *fractal)
 {
-	ERR_MEMORY,
-	ERR_INVALID
-	// etc
-}	t_error;
-
-typedef struct s_fractal
-{
-	void		*mlx_connection;
-	void		*mlx_window;
-	mlx_image_t	*image;
-
-}	t_fractal;
-
-#endif
+	if (error == ERR_MEMORY)
+		ft_printf("Error: failed to allocate memory.\n");
+	if (error == ERR_INVALID)
+		ft_printf("Error: invalid parameters for fractal.\n");
+	free_all(fractal);
+	exit(EXIT_FAILURE);
+}

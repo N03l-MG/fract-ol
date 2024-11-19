@@ -6,7 +6,7 @@
 /*   By: nmonzon <nmonzon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 12:27:47 by nmonzon           #+#    #+#             */
-/*   Updated: 2024/11/19 13:10:18 by nmonzon          ###   ########.fr       */
+/*   Updated: 2024/11/19 15:17:23 by nmonzon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ void	fractol_start(t_fractal_name name)
 	if (name == MANDELBROT)
 	{
 		ft_printf("Log: rendering Mandelbrot set.\n");
-		render_fractal(name, &fractal);
-		mlx_loop(fractal.mlx_connection);
+		render_fractal(&fractal);
+		mlx_loop(fractal.mlx_window);
 	}
 	else if (name == JULIA)
 	{
 		ft_printf("Log: rendering Julia set.\n");
-		render_fractal(name, &fractal);
-		mlx_loop(fractal.mlx_connection);
+		render_fractal(&fractal);
+		mlx_loop(fractal.mlx_window);
 	}
 }
