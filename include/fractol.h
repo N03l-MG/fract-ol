@@ -17,7 +17,7 @@
 # include "../MLX42/MLX42.h"
 # include <math.h>
 
-# define MAX_ITER 400
+# define MAX_ITER 200
 # define WIDTH 1920
 # define HEIGHT 1080
 
@@ -42,12 +42,13 @@ typedef struct s_fractal
 	mlx_t			*mlx_window;
 	mlx_image_t		*mlx_image;
 	unsigned char	*image_data;
-	double			c_re;
-	double			c_im;
-	double			slider_re;
-	double			slider_im;
+	float			c_re;
+	float			c_im;
+	float			slider_re;
+	float			slider_im;
 	int				slider_active;
 	int				mouse_down;
+	double			last_update_time;
 }	t_fractal;
 
 void	error_handler(t_error error, t_fractal *fractal);

@@ -23,16 +23,10 @@ static int	get_color(int iterations)
 	return (r << 16) | (g << 8) | b;
 }
 
-// double	truncate_mantissa(double value, int decimal_places)
-// {
-// 	double scale = pow(10.0, decimal_places);
-// 	return floor(value * scale) / scale; 
-// }
-
 void	draw_julia(t_fractal *fractal)
 {
 	int x, y, iter;
-	double z_re, z_im, z_re2, z_im2;
+	float z_re, z_im, z_re2, z_im2;
 	float scale = 4.0 / WIDTH;
 	unsigned char *pixel;
 
@@ -51,16 +45,15 @@ void	draw_julia(t_fractal *fractal)
 				z_im = z_im2;
 				iter++;
 			}
-            int color = get_color(iter);
-            int pixel_index = (y * WIDTH + x) * 4;
-            pixel = &fractal->image_data[pixel_index];
-            pixel[0] = (color >> 16) & 0xFF;  // Red
-            pixel[1] = (color >> 8) & 0xFF;   // Green
-            pixel[2] = color & 0xFF;          // Blue
-            pixel[3] = 0xFF;                  // Alpha
+			int color = get_color(iter);
+			int pixel_index = (y * WIDTH + x) * 4;
+			pixel = &fractal->image_data[pixel_index];
+			pixel[0] = (color >> 16) & 0xFF;  // Red
+			pixel[1] = (color >> 8) & 0xFF;   // Green
+			pixel[2] = color & 0xFF;          // Blue
+			pixel[3] = 0xFF;                  // Alpha
 		}
 	}
-	mlx_image_to_window(fractal->mlx_window, fractal->mlx_image, 0, 0);
 }
 
 void	render_fractal(t_fractal *fractal)
@@ -76,6 +69,7 @@ void	render_fractal(t_fractal *fractal)
 		error_handler(ERR_DATA, fractal);
 	draw_julia(fractal);
 	draw_sliders(fractal);
+	mlx_image_to_window(fractal->mlx_window, fractal->mlx_image, 0, 0);
 	mlx_cursor_hook(fractal->mlx_window, mouse_callback, fractal);
 	mlx_mouse_hook(fractal->mlx_window, click_callback, fractal);
 	mlx_loop(fractal->mlx_window);

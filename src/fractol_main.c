@@ -34,9 +34,6 @@ static void	fractol_start(t_fractal_name name, char **args)
 	t_fractal	*fractal;
 
 	fractal = (t_fractal *)malloc(sizeof(t_fractal));
-	fractal->slider_re = (fractal->c_re + 2.0) / 4.0;
-	fractal->slider_im = (fractal->c_im + 2.0) / 4.0;
-	fractal->slider_active = 0;
 	if (name == MANDELBROT)
 	{
 		ft_fprintf(1, "Log: rendering Mandelbrot set.\n");
@@ -48,6 +45,9 @@ static void	fractol_start(t_fractal_name name, char **args)
 			error_handler(ERR_INVALID, fractal);
 		fractal->c_re = atof(args[1]);
 		fractal->c_im = atof(args[2]);
+		fractal->slider_re = (fractal->c_re + 2.0) / 4.0;
+		fractal->slider_im = (fractal->c_im + 2.0) / 4.0;
+		fractal->slider_active = 0;
 		render_fractal(fractal);
 	}
 }

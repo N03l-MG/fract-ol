@@ -17,6 +17,12 @@ void	mouse_callback(double xpos, double ypos, void *param)
 	t_fractal *fractal = (t_fractal *)param;
 	int slider_width = WIDTH - 40;
 
+	// Get the current time in seconds
+	double current_time = mlx_get_time();
+
+	// Minimum time interval for updates (e.g., 50ms = 0.05 seconds)
+	const double MIN_UPDATE_INTERVAL = 0.5;
+
 	if (fractal->mouse_down)
 	{
 		if (ypos > HEIGHT - 60 && ypos < HEIGHT - 50)
@@ -35,9 +41,17 @@ void	mouse_callback(double xpos, double ypos, void *param)
 		}
 		else
 			fractal->slider_active = 0;
-		draw_julia(fractal);
-		draw_sliders(fractal);
-		mlx_image_to_window(fractal->mlx_window, fractal->mlx_image, 0, 0);
+
+		// Only update if enough time has passed
+		if ((current_time - fractal->last_update_time) >= MIN_UPDATE_INTERVAL)
+		{
+			draw_julia(fractal);
+			draw_sliders(fractal);
+			mlx_image_to_window(fractal->mlx_window, fractal->mlx_image, 0, 0);
+
+			// Update the last update time
+			fractal->last_update_time = current_time;
+		}
 	}
 }
 
