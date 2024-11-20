@@ -6,20 +6,20 @@
 /*   By: nmonzon <nmonzon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 12:27:47 by nmonzon           #+#    #+#             */
-/*   Updated: 2024/11/19 15:17:23 by nmonzon          ###   ########.fr       */
+/*   Updated: 2024/11/20 18:42:09 by nmonzon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static void	fractol_start(t_fractal_name name);
+static void	fractol_start(t_fractal_name name, char **args);
 
 int	main(int argc, char *argv[])
 {
 	if (argc == 2 && !ft_strncmp(argv[1], "mandelbrot", 10))
-		fractol_start(MANDELBROT);
+		fractol_start(MANDELBROT, NULL);
 	else if (argc == 4 && !ft_strncmp(argv[1], "julia", 5))
-		fractol_start(JULIA);
+		fractol_start(JULIA, argv);
 	else
 	{
 		ft_fprintf(2, "Invalid input arguments!\n");
@@ -29,20 +29,25 @@ int	main(int argc, char *argv[])
 	return (EXIT_SUCCESS);
 }
 
-static void	fractol_start(t_fractal_name name)
+static void	fractol_start(t_fractal_name name, char **args)
 {
-	t_fractal	fractal;
+	t_fractal	*fractal;
 
+	fractal = (t_fractal *)malloc(sizeof(t_fractal));
+	fractal->slider_re = (fractal->c_re + 2.0) / 4.0;
+	fractal->slider_im = (fractal->c_im + 2.0) / 4.0;
+	fractal->slider_active = 0;
 	if (name == MANDELBROT)
 	{
 		ft_fprintf(1, "Log: rendering Mandelbrot set.\n");
-		render_fractal(&fractal);
-		mlx_loop(fractal.mlx_window);
+		render_fractal(fractal);
 	}
 	else if (name == JULIA)
 	{
-		ft_fprintf(1, "Log: rendering Julia set.\n");
-		render_fractal(&fractal);
-		mlx_loop(fractal.mlx_window);
+		if (!args || !args[1] || !args[2])
+			error_handler(ERR_INVALID, fractal);
+		fractal->c_re = atof(args[1]);
+		fractal->c_im = atof(args[2]);
+		render_fractal(fractal);
 	}
 }
