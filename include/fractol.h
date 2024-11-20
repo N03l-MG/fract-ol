@@ -47,7 +47,7 @@ typedef struct s_fractal
 	float			slider_re;
 	float			slider_im;
 	int				slider_active;
-	int				mouse_down;
+	int				should_re_draw;
 	double			last_update_time;
 }	t_fractal;
 
@@ -56,6 +56,5 @@ void	render_fractal(t_fractal *fractal);
 void	draw_julia(t_fractal *fractal);
 void	draw_sliders(t_fractal *fractal);
 void	mouse_callback(double xpos, double ypos, void *param);
-void	click_callback(mouse_key_t bt, action_t act, modifier_key_t m, void *f);
 
 #endif

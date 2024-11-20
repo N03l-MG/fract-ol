@@ -48,6 +48,7 @@ static void	fractol_start(t_fractal_name name, char **args)
 		fractal->slider_re = (fractal->c_re + 2.0) / 4.0;
 		fractal->slider_im = (fractal->c_im + 2.0) / 4.0;
 		fractal->slider_active = 0;
+		fractal->should_re_draw = 0;
 		render_fractal(fractal);
 	}
 }

@@ -16,11 +16,22 @@ static int	get_color(int iterations)
 {
 	if (iterations == MAX_ITER)
 		return (0x000000);
-	int r = (iterations * 1) % 256;
-	int g = (iterations * 5) % 256;
+	int r = (iterations * 10) % 256;
+	int g = (iterations * 1) % 256;
 	int b = (iterations * 3) % 256;
 
 	return (r << 16) | (g << 8) | b;
+}
+
+void	re_draw_fractal(void *f)
+{
+	t_fractal *fractal = (t_fractal *)f;
+	if (fractal->should_re_draw) {
+		draw_julia(fractal);
+		draw_sliders(fractal);
+		mlx_image_to_window(fractal->mlx_window, fractal->mlx_image, 0, 0);
+		fractal->should_re_draw = 0;
+	}
 }
 
 void	draw_julia(t_fractal *fractal)
@@ -71,7 +82,7 @@ void	render_fractal(t_fractal *fractal)
 	draw_sliders(fractal);
 	mlx_image_to_window(fractal->mlx_window, fractal->mlx_image, 0, 0);
 	mlx_cursor_hook(fractal->mlx_window, mouse_callback, fractal);
-	mlx_mouse_hook(fractal->mlx_window, click_callback, fractal);
+	mlx_loop_hook(fractal->mlx_window, re_draw_fractal, fractal);
 	mlx_loop(fractal->mlx_window);
 	mlx_delete_image(fractal->mlx_window, fractal->mlx_image);
 	mlx_terminate(fractal->mlx_window);
