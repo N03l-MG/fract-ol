@@ -31,5 +31,6 @@ void	error_handler(t_error error, t_fractal *fractal)
 		mlx_delete_image(fractal->mlx_window, fractal->mlx_image);
 		mlx_terminate(fractal->mlx_window);
 	}
+	// TODO: some kind of freeing function here
 	exit(EXIT_FAILURE);
 }

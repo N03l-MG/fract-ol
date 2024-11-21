@@ -29,26 +29,29 @@ int	main(int argc, char *argv[])
 	return (EXIT_SUCCESS);
 }
 
-static void	fractol_start(t_fractal_name name, char **args)
+static void fractol_start(t_fractal_name name, char **args)
 {
-	t_fractal	*fractal;
+	t_fractal *fractal;
 
 	fractal = (t_fractal *)malloc(sizeof(t_fractal));
-	if (name == MANDELBROT)
-	{
-		ft_fprintf(1, "Log: rendering Mandelbrot set.\n");
-		render_fractal(fractal);
-	}
-	else if (name == JULIA)
+	if (!fractal)
+		error_handler(ERR_MEMORY, NULL);
+	ft_memset(fractal, 0, sizeof(t_fractal));
+	fractal->min_re = -2.0;
+	fractal->max_re = 2.0;
+	fractal->min_im = -2.0;
+	fractal->max_im = 2.0;
+	fractal->zoom_factor = 0.9;
+	fractal->should_re_draw = false;
+	if (name == JULIA)
 	{
 		if (!args || !args[1] || !args[2])
 			error_handler(ERR_INVALID, fractal);
-		fractal->c_re = atof(args[1]);
+		fractal->c_re = atof(args[1]); // TODO: make own ft_atof
 		fractal->c_im = atof(args[2]);
 		fractal->slider_re = (fractal->c_re + 2.0) / 4.0;
 		fractal->slider_im = (fractal->c_im + 2.0) / 4.0;
-		fractal->slider_active = 0;
-		fractal->should_re_draw = 0;
-		render_fractal(fractal);
 	}
+	render_fractal(name, fractal);
+	free(fractal);
 }

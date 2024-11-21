@@ -12,12 +12,12 @@
 
 #include "fractol.h"
 
-void	draw_sliders(t_fractal *fractal)
+// Julia set sliders for R and I components of current complex number
+void	draw_sliders(t_fractal *fractal) // TODO: make norminette compliant
 {
-	int x, y;
-	int slider_width = WIDTH - 40;
+	int	x, y;
+	int	slider_width = WIDTH - 40;
 
-	// Draw c_re slider
 	for (y = HEIGHT - 60; y < HEIGHT - 50; y++)
 	{
 		for (x = 20; x < 20 + slider_width; x++)
@@ -30,8 +30,6 @@ void	draw_sliders(t_fractal *fractal)
 			fractal->mlx_image->pixels[pixel_index + 3] = 0xFF;                // Alpha
 		}
 	}
-
-	// Draw c_im slider
 	for (y = HEIGHT - 40; y < HEIGHT - 30; y++)
 	{
 		for (x = 20; x < 20 + slider_width; x++)
@@ -45,3 +43,5 @@ void	draw_sliders(t_fractal *fractal)
 		}
 	}
 }
+
+// More UI will be implemented!
