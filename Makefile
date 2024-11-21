@@ -39,7 +39,7 @@ vpath %.c $(SOURCES)
 ###############                    SOURCE FILES                  ###############
 ################################################################################
 
-SRCS = fractol_main.c fractol_window.c fractol_error.c fractol_userinput.c fractol_ui.c
+SRCS = fractol_main.c fractol_render.c fractol_math.c fractol_error.c fractol_userinput.c fractol_ui.c
 
 OBJ = $(addprefix $(OBJECTS)/, $(SRCS:.c=.o))
 

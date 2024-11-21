@@ -6,7 +6,7 @@
 /*   By: nmonzon <nmonzon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 12:39:00 by nmonzon           #+#    #+#             */
-/*   Updated: 2024/11/20 18:22:18 by nmonzon          ###   ########.fr       */
+/*   Updated: 2024/11/21 17:51:27 by nmonzon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,16 @@
 # include "../MLX42/MLX42.h"
 # include <math.h>
 
-# define MAX_ITER 200
+# define MAX_ITER 150
 # define WIDTH 1920
 # define HEIGHT 1080
 
 // Available fractals
-typedef enum e_fractal_name
+typedef enum e_name
 {
 	MANDELBROT,
 	JULIA
-	// BURNING_SHIP planned
-}	t_fractal_name;
+}	t_name;
 
 // Errors for handling
 typedef enum e_error
@@ -42,14 +41,19 @@ typedef enum e_error
 // Fractal data structure
 typedef struct s_fractal
 {
+	t_name			name;
 	mlx_t			*mlx_window;
 	mlx_image_t		*mlx_image;
 	unsigned char	*image_data;
-	float			c_re, c_im;
-	double			min_re, max_re;
-    double			min_im, max_im;
-    double			zoom_factor;
-	float			slider_re, slider_im;
+	float			c_re;
+	float			c_im;
+	double			min_re;
+	double			max_re;
+	double			min_im;
+	double			max_im;
+	double			zoom_factor;
+	float			slider_re;
+	float			slider_im;
 	int				slider_active;
 	bool			should_re_draw;
 	double			last_update_time;
@@ -57,9 +61,10 @@ typedef struct s_fractal
 
 // Shared functions (will organize)
 void	error_handler(t_error error, t_fractal *fractal);
-void	render_fractal(t_fractal_name name, t_fractal *fractal);
+void	render_fractal(t_fractal *fractal);
 void	draw_julia(t_fractal *fractal);
 void	draw_mandelbrot(t_fractal *fractal);
+int		get_color(int iterations);
 void	draw_sliders(t_fractal *fractal);
 void	mouse_callback(double xpos, double ypos, void *param);
 void	scroll_callback(double xoffset, double yoffset, void *param);

@@ -6,13 +6,13 @@
 /*   By: nmonzon <nmonzon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 12:27:47 by nmonzon           #+#    #+#             */
-/*   Updated: 2024/11/20 18:42:09 by nmonzon          ###   ########.fr       */
+/*   Updated: 2024/11/21 14:53:05 by nmonzon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static void	fractol_start(t_fractal_name name, char **args);
+static void	fractol_start(t_name name, char **args);
 
 int	main(int argc, char *argv[])
 {
@@ -29,14 +29,15 @@ int	main(int argc, char *argv[])
 	return (EXIT_SUCCESS);
 }
 
-static void fractol_start(t_fractal_name name, char **args)
+static void	fractol_start(t_name name, char **args)
 {
-	t_fractal *fractal;
+	t_fractal	*fractal;
 
 	fractal = (t_fractal *)malloc(sizeof(t_fractal));
 	if (!fractal)
 		error_handler(ERR_MEMORY, NULL);
 	ft_memset(fractal, 0, sizeof(t_fractal));
+	fractal->name = name;
 	fractal->min_re = -2.0;
 	fractal->max_re = 2.0;
 	fractal->min_im = -2.0;
@@ -52,6 +53,6 @@ static void fractol_start(t_fractal_name name, char **args)
 		fractal->slider_re = (fractal->c_re + 2.0) / 4.0;
 		fractal->slider_im = (fractal->c_im + 2.0) / 4.0;
 	}
-	render_fractal(name, fractal);
+	render_fractal(fractal);
 	free(fractal);
 }

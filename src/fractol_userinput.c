@@ -6,7 +6,7 @@
 /*   By: nmonzon <nmonzon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:18:42 by nmonzon           #+#    #+#             */
-/*   Updated: 2024/11/20 18:28:10 by nmonzon          ###   ########.fr       */
+/*   Updated: 2024/11/21 14:53:06 by nmonzon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,13 @@ void	scroll_callback(double xoffset, double yoffset, void *param) // TODO: refac
 	fractal->max_re = cursor_re + re_range / 2;
 	fractal->min_im = cursor_im - im_range / 2;
 	fractal->max_im = cursor_im + im_range / 2;
-	draw_mandelbrot(fractal); // Hard coded for now, will make dynamic
-	//draw_sliders(fractal);
+	if (fractal->name == JULIA)
+	{
+		draw_julia(fractal);
+		draw_sliders(fractal);
+	}
+	else
+		draw_mandelbrot(fractal);
 	mlx_image_to_window(fractal->mlx_window, fractal->mlx_image, 0, 0);
 }
 
@@ -105,7 +110,12 @@ void	key_callback(mlx_key_data_t keydata, void *param) // TODO: refactoring hell
 		fractal->min_im += move_factor;
 		fractal->max_im += move_factor;
 	}
-	draw_mandelbrot(fractal); // Hard coded for now, will make dynamic
-	//draw_sliders(fractal);
+	if (fractal->name == JULIA)
+	{
+		draw_julia(fractal);
+		draw_sliders(fractal);
+	}
+	else
+		draw_mandelbrot(fractal);
 	mlx_image_to_window(fractal->mlx_window, fractal->mlx_image, 0, 0);
 }
