@@ -6,7 +6,7 @@
 /*   By: nmonzon <nmonzon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 14:50:17 by nmonzon           #+#    #+#             */
-/*   Updated: 2024/11/21 14:53:11 by nmonzon          ###   ########.fr       */
+/*   Updated: 2024/11/22 18:32:07 by nmonzon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ void	error_handler(t_error error, t_fractal *fractal)
 		mlx_delete_image(fractal->mlx_window, fractal->mlx_image);
 		mlx_terminate(fractal->mlx_window);
 	}
-	// TODO: some kind of freeing function here
 	exit(EXIT_FAILURE);
+}
+
+void	clean_stop(t_fractal *fractal)
+{
+	if (fractal->mlx_image)
+		mlx_delete_image(fractal->mlx_window, fractal->mlx_image);
+	if (fractal->mlx_window)
+		mlx_terminate(fractal->mlx_window);
+	exit(EXIT_SUCCESS);
 }

@@ -6,59 +6,61 @@
 /*   By: nmonzon <nmonzon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 17:37:17 by nmonzon           #+#    #+#             */
-/*   Updated: 2024/11/21 17:58:07 by nmonzon          ###   ########.fr       */
+/*   Updated: 2024/11/22 17:10:50 by nmonzon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
+static void	complex_function_julia(t_fractal *fractal, t_juliaset *j)
+{
+	j->z_re2 = j->z_re * j->z_re - j->z_im * j->z_im + fractal->c_re;
+	j->z_im2 = 2 * j->z_re * j->z_im + fractal->c_im;
+	j->z_re = j->z_re2;
+	j->z_im = j->z_im2;
+}
+
+static void	complex_function_mandels(t_fractal *fractal, t_mandelbrotset *m)
+{
+	if (fractal->name == MANDELBROT)
+	{
+		m->z_re2 = m->z_re * m->z_re - m->z_im * m->z_im + m->c_re;
+		m->z_im2 = 2 * m->z_re * m->z_im + m->c_im;
+		m->z_re = m->z_re2;
+		m->z_im = m->z_im2;
+	}
+	else if (fractal->name == BURNING_SHIP)
+	{
+		m->z_re2 = m->z_re * m->z_re - m->z_im * m->z_im + m->c_re;
+		m->z_im2 = 2 * fabsf(m->z_re * m->z_im) + m->c_im;
+		m->z_re = m->z_re2;
+		m->z_im = m->z_im2;
+	}
+}
+
 void	draw_julia(t_fractal *fractal)
 {
-	int				x;
-	int				y;
-	int				iter;
-	double			z_re;
-	double			z_im;
-	double			z_re2;
-	double			z_im2;
-	unsigned char	*pixel;
-	double			aspect_ratio;
-	double			re_range;
-	double			im_range;
-	int				color;
-	int				pixel_index;
+	int			x;
+	int			y;
+	int			iter;
+	t_juliaset	j;
 
-	aspect_ratio = (double)HEIGHT / WIDTH;
-	re_range = fractal->max_re - fractal->min_re;
-	im_range = re_range * aspect_ratio;
-	y = 0;
-	x = 0;
-	while (y < HEIGHT)
+	j.aspect_ratio = (float)HEIGHT / WIDTH;
+	j.re_range = fractal->max_re - fractal->min_re;
+	j.im_range = j.re_range * j.aspect_ratio;
+	y = -1;
+	while (++y < HEIGHT)
 	{
-		x = 0;
-		while (x < WIDTH)
+		x = -1;
+		while (++x < WIDTH)
 		{
-			z_re = fractal->min_re + (x / (double)WIDTH) * re_range;
-			z_im = fractal->min_im + (y / (double)HEIGHT) * im_range;
-			iter = 0;
-			while (iter < MAX_ITER && (z_re * z_re + z_im * z_im) <= 4)
-			{
-				z_re2 = z_re * z_re - z_im * z_im + fractal->c_re;
-				z_im2 = 2 * z_re * z_im + fractal->c_im;
-				z_re = z_re2;
-				z_im = z_im2;
-				iter++;
-			}
-			color = get_color(iter);
-			pixel_index = (y * WIDTH + x) * 4;
-			pixel = &fractal->image_data[pixel_index];
-			pixel[0] = (color >> 16) & 0xFF;
-			pixel[1] = (color >> 8) & 0xFF;
-			pixel[2] = color & 0xFF;
-			pixel[3] = 0xFF;
-			x++;
+			j.z_re = fractal->min_re + (x / (float)WIDTH) * j.re_range;
+			j.z_im = fractal->min_im + (y / (float)HEIGHT) * j.im_range;
+			iter = -1;
+			while (++iter < MAX_ITER && (j.z_re * j.z_re + j.z_im * j.z_im) < 5)
+				complex_function_julia(fractal, &j);
+			assign_pixel_color(x, y, iter, fractal);
 		}
-		y++;
 	}
 }
 
@@ -67,51 +69,25 @@ void	draw_mandelbrot(t_fractal *fractal)
 	int				x;
 	int				y;
 	int				iter;
-	double			z_re;
-	double			z_im;
-	double			c_re;
-	double			c_im;
-	double			z_re2;
-	double			z_im2;
-	unsigned char	*pixel;
-	double			aspect_ratio;
-	double			re_range;
-	double			im_range;
-	int				color;
-	int				pixel_index;
+	t_mandelbrotset	m;
 
-	aspect_ratio = (double)HEIGHT / WIDTH;
-	re_range = fractal->max_re - fractal->min_re;
-	im_range = re_range * aspect_ratio;
-	y = 0;
-	x = 0;
-	while (y < HEIGHT)
+	m.aspect_ratio = (float)HEIGHT / WIDTH;
+	m.re_range = fractal->max_re - fractal->min_re;
+	m.im_range = m.re_range * m.aspect_ratio;
+	y = -1;
+	while (++y < HEIGHT)
 	{
-		x = 0;
-		while (x < WIDTH)
+		x = -1;
+		while (++x < WIDTH)
 		{
-			c_re = fractal->min_re + (x / (double)WIDTH) * re_range;
-			c_im = fractal->min_im + (y / (double)HEIGHT) * im_range;
-			z_re = 0.0;
-			z_im = 0.0;
-			iter = 0;
-			while (iter < MAX_ITER && (z_re * z_re + z_im * z_im) <= 4)
-			{
-				z_re2 = z_re * z_re - z_im * z_im + c_re;
-				z_im2 = 2 * z_re * z_im + c_im;
-				z_re = z_re2;
-				z_im = z_im2;
-				iter++;
-			}
-			color = get_color(iter);
-			pixel_index = (y * WIDTH + x) * 4;
-			pixel = &fractal->image_data[pixel_index];
-			pixel[0] = (color >> 16) & 0xFF;
-			pixel[1] = (color >> 8) & 0xFF;
-			pixel[2] = color & 0xFF;
-			pixel[3] = 0xFF;
-			x++;
+			m.c_re = fractal->min_re + (x / (float)WIDTH) * m.re_range;
+			m.c_im = fractal->min_im + (y / (float)HEIGHT) * m.im_range;
+			m.z_re = 0.0;
+			m.z_im = 0.0;
+			iter = -1;
+			while (++iter < MAX_ITER && (m.z_re * m.z_re + m.z_im * m.z_im) < 5)
+				complex_function_mandels(fractal, &m);
+			assign_pixel_color(x, y, iter, fractal);
 		}
-		y++;
 	}
 }

@@ -6,45 +6,33 @@
 /*   By: nmonzon <nmonzon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 14:40:31 by nmonzon           #+#    #+#             */
-/*   Updated: 2024/11/21 17:51:05 by nmonzon          ###   ########.fr       */
+/*   Updated: 2024/11/22 17:18:16 by nmonzon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int	get_color(int iterations)
-{
-	int	r;
-	int	g;
-	int	b;
-
-	if (iterations == MAX_ITER)
-		return (0x000000);
-	r = (iterations * 10) % 256;
-	g = (iterations * 1) % 256;
-	b = (iterations * 3) % 256;
-	return ((r << 16) | (g << 8) | b);
-}
-
 void	re_draw_fractal(void *f)
 {
-	t_fractal		*fractal;
-	double			current_time = mlx_get_time();
-	const double	MIN_UPDATE_INTERVAL = 1 / 60.0;
+	t_fractal	*fractal;
+	double		time;
+	double		update;
 
 	fractal = (t_fractal *)f;
-	if (fractal->should_re_draw && (current_time - fractal->last_update_time) >= MIN_UPDATE_INTERVAL)
+	time = mlx_get_time();
+	update = 1 / 60.0;
+	if (fractal->should_re_draw && (time - fractal->last_update_time) >= update)
 	{
 		if (fractal->name == JULIA)
 		{
 			draw_julia(fractal);
 			draw_sliders(fractal);
 		}
-		else
+		else if (fractal->name == MANDELBROT || fractal->name == BURNING_SHIP)
 			draw_mandelbrot(fractal);
 		mlx_image_to_window(fractal->mlx_window, fractal->mlx_image, 0, 0);
 		fractal->should_re_draw = false;
-		fractal->last_update_time = current_time;
+		fractal->last_update_time = time;
 	}
 }
 
@@ -64,7 +52,7 @@ void	render_fractal(t_fractal *fractal)
 		draw_julia(fractal);
 		draw_sliders(fractal);
 	}
-	else if (fractal->name == MANDELBROT)
+	else if (fractal->name == MANDELBROT || fractal->name == BURNING_SHIP)
 		draw_mandelbrot(fractal);
 	mlx_image_to_window(fractal->mlx_window, fractal->mlx_image, 0, 0);
 	mlx_cursor_hook(fractal->mlx_window, mouse_callback, fractal);
@@ -72,6 +60,5 @@ void	render_fractal(t_fractal *fractal)
 	mlx_key_hook(fractal->mlx_window, key_callback, fractal);
 	mlx_loop_hook(fractal->mlx_window, re_draw_fractal, fractal);
 	mlx_loop(fractal->mlx_window);
-	mlx_delete_image(fractal->mlx_window, fractal->mlx_image);
-	mlx_terminate(fractal->mlx_window);
+	clean_stop(fractal);
 }

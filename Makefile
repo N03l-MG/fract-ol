@@ -14,7 +14,8 @@
 
 NAME = fractol
 CC = cc
-FLAGS = -Wall -Wextra -Werror -MMD -MP $(addprefix -I, $(INCLUDES))
+FLAGS = -Wall -Wextra -Werror -flto -Ofast -march=native -MMD -MP $(addprefix -I, $(INCLUDES))
+LDFLAGS = -flto
 LIBFT = ./libft/libft.a
 MLX = ./MLX42/build/libmlx42.a
 
@@ -39,7 +40,8 @@ vpath %.c $(SOURCES)
 ###############                    SOURCE FILES                  ###############
 ################################################################################
 
-SRCS = fractol_main.c fractol_render.c fractol_math.c fractol_error.c fractol_userinput.c fractol_ui.c
+SRCS = fractol_main.c fractol_render.c fractol_math.c fractol_error.c fractol_userinput.c \
+	   fractol_ui.c fractol_color.c
 
 OBJ = $(addprefix $(OBJECTS)/, $(SRCS:.c=.o))
 
@@ -53,7 +55,7 @@ $(NAME): $(OBJ)
 	$(CC) $(FLAGS) $^ $(LIBFT) $(MLX) $(MLX_FLAGS) -o $@
 
 $(OBJECTS)/%.o: %.c | $(OBJECTS)
-	@$(CC) $(FLAGS) -c $< -o $@
+	@$(CC) $(FLAGS) -c $< -o $@ $(LDFLAGS)
 
 $(OBJECTS):
 	@mkdir -p $@
