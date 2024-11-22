@@ -28,10 +28,12 @@ int	get_color(int iterations)
 
 void	re_draw_fractal(void *f)
 {
-	t_fractal	*fractal;
+	t_fractal		*fractal;
+	double			current_time = mlx_get_time();
+	const double	MIN_UPDATE_INTERVAL = 1 / 60.0;
 
 	fractal = (t_fractal *)f;
-	if (fractal->should_re_draw)
+	if (fractal->should_re_draw && (current_time - fractal->last_update_time) >= MIN_UPDATE_INTERVAL)
 	{
 		if (fractal->name == JULIA)
 		{
@@ -42,6 +44,7 @@ void	re_draw_fractal(void *f)
 			draw_mandelbrot(fractal);
 		mlx_image_to_window(fractal->mlx_window, fractal->mlx_image, 0, 0);
 		fractal->should_re_draw = false;
+		fractal->last_update_time = current_time;
 	}
 }
 

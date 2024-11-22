@@ -35,6 +35,7 @@ static void	draw_slider_re(t_fractal *fractal)
 	slider_width = WIDTH - 40;
 	while (y < HEIGHT - 50)
 	{
+		x = 0;
 		while (x < 20 + slider_width)
 		{
 			color = (x < 20 + (fractal->slider_re * slider_width)) ? 0xFF0000 : 0xAAAAAA;
@@ -62,6 +63,7 @@ static void	draw_slider_im(t_fractal *fractal)
 	slider_width = WIDTH - 40;
 	while (y < HEIGHT - 30)
 	{
+		x = 0;
 		while (x < 20 + slider_width)
 		{
 			color = (x < 20 + (fractal->slider_im * slider_width)) ? 0x00FF00 : 0xAAAAAA;
