@@ -15,7 +15,7 @@
 void	error_handler(t_error error, t_fractal *fractal)
 {
 	if (error == ERR_MEMORY)
-		ft_fprintf(2, "Error: Iailed to allocate memory.\n");
+		ft_fprintf(2, "Error: Failed to allocate memory.\n");
 	else if (error == ERR_INVALID)
 		ft_fprintf(2, "Error: Invalid parameters for fractal.\n");
 	else if (error == ERR_WINDOW)
