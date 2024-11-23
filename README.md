@@ -3,15 +3,15 @@
 
 In this project I used the [MLX](https://github.com/codam-coding-college/MLX42) graphical library as well as my [libft](https://github.com/N03l-MG/libft) to program an interactive visualizer capable of rendering and exploring fractals. The mandatory features are implementations of the Mandelbrot and its Julia set, along with the ability to zoom in and out. I took it a step further and implemented UI sliders to dynamically change the real and imaginary components of the Julia's complex point, as well as zooming at the cursor's position and panning with the arrow keys. I also added an extra fractal called the Burning Ship. I scored 125% and was granted "Outstanding Project" on two of the evaluations.
 
-![images/MandelbrotRed.png]
+![Mandelbrot in red colours] (images/MandelbrotRed.png)
 
-![images/JuliaWindow.png]
+![Screenshot of the Julia set with the sliders] (images/JuliaWindow.png)
 
-![images/BurningShip.png]
+![Burning Ship fractal zoomed at the famous zone] (images/BurningShip.png)
 
-![images/ZoomedMandel.png]
+![Zoom of the Mandelbrot at the Spiral Valley] (images/ZoomedMandel.png)
 
-![images/ZoomedJulia.png]
+![Zoomed in Julia set] (images/ZoomedJulia.png)
 
 **Controls:**
 
