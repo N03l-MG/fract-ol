@@ -38,7 +38,7 @@ void	re_draw_fractal(void *f)
 
 void	render_fractal(t_fractal *fractal)
 {
-	fractal->mlx_window = mlx_init(WIDTH, HEIGHT, "fract-ol", true);
+	fractal->mlx_window = mlx_init(WIDTH, HEIGHT, "fract-ol", false);
 	if (!fractal->mlx_window)
 		error_handler(ERR_WINDOW, fractal);
 	fractal->mlx_image = mlx_new_image(fractal->mlx_window, WIDTH, HEIGHT);

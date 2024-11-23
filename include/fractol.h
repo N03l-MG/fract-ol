@@ -96,15 +96,23 @@ typedef struct s_fractalscale
 // Error handing
 void	error_handler(t_error error, t_fractal *fractal);
 void	clean_stop(t_fractal *fractal);
+
 // Rendering
 void	render_fractal(t_fractal *fractal);
 void	draw_julia(t_fractal *fractal);
 void	draw_mandelbrot(t_fractal *fractal);
 void	assign_pixel_color(int x, int y, int iter, t_fractal *fractal);
 void	draw_sliders(t_fractal *fractal);
+
 // User input hooks
 void	mouse_callback(double xpos, double ypos, void *param);
 void	scroll_callback(double xoffset, double yoffset, void *param);
 void	key_callback(mlx_key_data_t keydata, void *param);
+
+// Util functions
+float	ft_atof(char *s);
+void	slide(t_fractal *fractal, int width, double xpos, double ypos);
+void	rescale_view(t_fractal *fractal, t_fractalscale *s);
+void	move_view(t_fractal *fractal, double re_offset, double im_offset);
 
 #endif

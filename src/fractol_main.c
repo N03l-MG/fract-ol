@@ -47,8 +47,8 @@ static void	fractol_start(t_name name, char **args)
 	{
 		if (!args || !args[1] || !args[2])
 			error_handler(ERR_INVALID, &fractal);
-		fractal.c_re = atof(args[1]);
-		fractal.c_im = atof(args[2]);
+		fractal.c_re = ft_atof(args[1]);
+		fractal.c_im = ft_atof(args[2]);
 		fractal.slider_re = (fractal.c_re + 2.0) / 4.0;
 		fractal.slider_im = (fractal.c_im + 2.0) / 4.0;
 	}

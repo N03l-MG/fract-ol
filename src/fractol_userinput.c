@@ -12,40 +12,6 @@
 
 #include "fractol.h"
 
-static void	slide(t_fractal *fractal, int width, double xpos, double ypos)
-{
-	if (ypos > HEIGHT - 60 && ypos < HEIGHT - 50)
-	{
-		fractal->slider_active = 1;
-		fractal->slider_re = (xpos - 20) / width;
-		fractal->slider_re = fmax(0, fmin(1, fractal->slider_re));
-		fractal->c_re = -2.0 + fractal->slider_re * 4.0;
-		fractal->should_re_draw = true;
-	}
-	else if (ypos > HEIGHT - 40 && ypos < HEIGHT - 30)
-	{
-		fractal->slider_active = 2;
-		fractal->slider_im = (xpos - 20) / width;
-		fractal->slider_im = fmax(0, fmin(1, fractal->slider_im));
-		fractal->c_im = -2.0 + fractal->slider_im * 4.0;
-		fractal->should_re_draw = true;
-	}
-	else
-		fractal->slider_active = 0;
-}
-
-static void	rescale_view(t_fractal *fractal, t_fractalscale *s)
-{
-	fractal->min_re = s->cursor_re - (s->cursor_re - fractal->min_re)
-		* (s->re_range / (fractal->max_re - fractal->min_re));
-	fractal->max_re = s->cursor_re + (fractal->max_re - s->cursor_re)
-		* (s->re_range / (fractal->max_re - fractal->min_re));
-	fractal->min_im = s->cursor_im - (s->cursor_im - fractal->min_im)
-		* (s->im_range / (fractal->max_im - fractal->min_im));
-	fractal->max_im = s->cursor_im + (fractal->max_im - s->cursor_im)
-		* (s->im_range / (fractal->max_im - fractal->min_im));
-}
-
 // Handle mouse movement and dragging R and I sliders
 void	mouse_callback(double xpos, double ypos, void *param)
 {
@@ -96,30 +62,14 @@ void	key_callback(mlx_key_data_t keydata, void *param)
 
 	fractal = (t_fractal *)param;
 	move_factor = 0.01;
-	if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_PRESS)
-	{
-		fractal->min_re -= move_factor;
-		fractal->max_re -= move_factor;
-		fractal->should_re_draw = true;
-	}
-	else if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)
-	{
-		fractal->min_re += move_factor;
-		fractal->max_re += move_factor;
-		fractal->should_re_draw = true;
-	}
-	else if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
-	{
-		fractal->min_im -= move_factor;
-		fractal->max_im -= move_factor;
-		fractal->should_re_draw = true;
-	}
-	else if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS)
-	{
-		fractal->min_im += move_factor;
-		fractal->max_im += move_factor;
-		fractal->should_re_draw = true;
-	}
-	else if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+	if (keydata.key == MLX_KEY_LEFT)
+		move_view(fractal, -move_factor, 0);
+	else if (keydata.key == MLX_KEY_RIGHT)
+		move_view(fractal, move_factor, 0);
+	else if (keydata.key == MLX_KEY_UP)
+		move_view(fractal, 0, -move_factor);
+	else if (keydata.key == MLX_KEY_DOWN)
+		move_view(fractal, 0, move_factor);
+	else if (keydata.key == MLX_KEY_ESCAPE)
 		clean_stop(fractal);
 }
