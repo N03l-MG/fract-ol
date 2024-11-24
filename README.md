@@ -34,7 +34,7 @@ In this project I used the [MLX](https://github.com/codam-coding-college/MLX42) 
 **Known Bugs / Limitations:**
 
 - The sliders have a slight offset from where the user is clicking and where the bars are filled in.
-- On first render, all fractals are offset in the vertical axis by a few units. Zoom/pan can quickly adjust the view. (This issue is much harder to fix than in may seem!)
+- On first render, all fractals are offset in the vertical axis by a few units. Zoom/pan can quickly adjust the view. (This issue is much harder to fix than it may seem!)
 - Interacting with the program at deeper zoom levels, especially near back areas severely reduces performance due to many calculations needed to draw the pixels.
 - The zoom eventually reaches the iteration and floating point limit, which leads to pixilation and inaccuracy.
 
