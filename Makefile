@@ -3,7 +3,7 @@
 #                                    MAKEFILE                                  #
 # Project:     fract-ol                                                        #
 # Created:     19/11/2024                                                      #
-# Author:      Noel Monzon (nmonzon)                                           #
+# Author:      kixk                                                            #
 #                                                                              #
 ################################################################################
 
